@@ -22,12 +22,12 @@ func NewLruCache(size int) *LruCache {
 func (l *LruCache) Put(key string, value string) {
 	tail := l.Tail
 	if tail == nil {
-		tail := Node{
+		firstNode := Node{
 			Key:   key,
 			Value: value,
 		}
-		l.Tail = &tail
-		l.Head = &tail
+		l.Tail = &firstNode
+		l.Head = &firstNode
 		return
 	}
 	head := l.Head
@@ -37,8 +37,23 @@ func (l *LruCache) Put(key string, value string) {
 		Value: value,
 		Next:  head,
 	}
-	head.Prev = &node
+
+	oldNode := node.Next
+	if oldNode != nil {
+		oldNode.Prev = &node
+	}
 	l.Head = &node
+
+	size := l.size
+	count := 0
+	for i := l.Head; i != nil; i = i.Next {
+		count++
+	}
+	if count > size {
+		newTail := *tail.Prev
+		newTail.Next = nil
+		l.Tail = &newTail
+	}
 }
 
 func (l *LruCache) Get(key string) *string {
