@@ -70,14 +70,12 @@ func (l *LruCache) Get(key string) *string {
 			if next == nil && i.Prev != nil {
 				prev.Next = nil
 			}
-			node = *i
-			break
+			i.Prev = nil
+			l.Head.Prev = &node
+			i.Next = l.Head
+			l.Head = i
+			return &i.Value
 		}
 	}
-	node.Prev = nil
-	l.Head.Prev = &node
-	node.Next = l.Head
-	l.Head = &node
-
-	return &node.Value
+	return nil
 }
