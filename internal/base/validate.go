@@ -14,16 +14,13 @@ func Validate(req *ValidateRequest) []string {
 		return res
 	}
 
-	userId := req.UserID
-	Title := req.Title
-	Description := req.Description
-	if userId == "" {
+	if req.UserID == "" {
 		res = append(res, "no UserID")
 	}
-	if Title == "" {
+	if req.Title == "" {
 		res = append(res, "no Title")
 	}
-	if Description == "" {
+	if req.Description == "" {
 		res = append(res, "no Description")
 	}
 	return res
