@@ -30,6 +30,13 @@ func (l *LruCache) Put(key string, value string) {
 		l.Head = &firstNode
 		return
 	}
+
+	for i := l.Head; i != nil; i = i.Next {
+		if i.Key == key {
+			i.Value = value
+		}
+	}
+
 	head := l.Head
 
 	node := Node{
@@ -50,9 +57,9 @@ func (l *LruCache) Put(key string, value string) {
 		count++
 	}
 	if count > size {
-		newTail := *tail.Prev
+		newTail := tail.Prev
 		newTail.Next = nil
-		l.Tail = &newTail
+		l.Tail = newTail
 	}
 }
 

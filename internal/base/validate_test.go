@@ -13,9 +13,7 @@ func Test_Validate(t *testing.T) {
 	t.Run("validate Request not empty", func(t *testing.T) {
 		t.Parallel()
 
-		var first *base.ValidateRequest
-
-		first = &base.ValidateRequest{
+		var first = &base.ValidateRequest{
 			Title:       "Title",
 			Description: "Description",
 		}
@@ -28,9 +26,7 @@ func Test_Validate(t *testing.T) {
 	t.Run("validate request empty", func(t *testing.T) {
 		t.Parallel()
 
-		var first *base.ValidateRequest
-
-		first = &base.ValidateRequest{}
+		var first = &base.ValidateRequest{}
 
 		rsl := base.Validate(first)
 
