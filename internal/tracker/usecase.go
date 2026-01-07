@@ -1,6 +1,9 @@
 package tracker
 
-import "github.com/google/uuid"
+import (
+	"fmt"
+	"github.com/google/uuid"
+)
 
 type Usecase interface {
 	Done(in Input, out Output, tracker *Tracker)
@@ -46,5 +49,9 @@ type GetItemUsecase struct{}
 func (u GetItemUsecase) Done(in Input, out Output, tracker *Tracker) {
 	out.Out("enter part of name item:")
 	name := in.Get()
-	tracker.GetItem(out, name)
+	error, item := tracker.GetItem(name)
+	if error != nil {
+		out.Out("not found item")
+	}
+	out.Out(fmt.Sprintf("item ID: %s Name: %s", item.ID, item.Name))
 }

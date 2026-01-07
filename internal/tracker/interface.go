@@ -7,3 +7,6 @@ type Input interface {
 type Output interface {
 	Out(text string)
 }
+type error interface {
+	Error() string
+}
