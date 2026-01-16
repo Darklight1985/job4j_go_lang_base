@@ -28,26 +28,24 @@ func (t *Tracker) GetItems() []Item {
 	return res
 }
 
-func (t *Tracker) DeleteItem(out Output, name string) {
+func (t *Tracker) DeleteItem(id string) bool {
 	items := t.Items
-	for i, item := range items {
-		if item.Name == name {
-			t.Items = append(items[:i], items[i+1:]...)
-			return
-		}
+	i, ok := t.indexOf(id)
+	if ok {
+		t.Items = append(items[:i], items[i+1:]...)
+		return true
 	}
-	out.Out("not found item")
+	return false
 }
 
-func (t *Tracker) UpdateItem(out Output, id string, name string) {
+func (t *Tracker) UpdateItem(id string, name string) bool {
 	items := t.Items
-	for _, item := range items {
-		if item.ID == id {
-			item.Name = name
-			return
-		}
+	i, ok := t.indexOf(id)
+	if ok {
+		items[i].Name = name
+		return true
 	}
-	out.Out("not found item")
+	return false
 }
 
 func (t *Tracker) GetItem(subStr string) (error, Item) {

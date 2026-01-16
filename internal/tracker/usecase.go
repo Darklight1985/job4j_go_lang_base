@@ -29,9 +29,11 @@ func (u GetUsecase) Done(_ Input, out Output, tracker *Tracker) {
 type DeleteUsecase struct{}
 
 func (u DeleteUsecase) Done(in Input, out Output, tracker *Tracker) {
-	out.Out("enter name item:")
+	out.Out("enter id item:")
 	name := in.Get()
-	tracker.DeleteItem(out, name)
+	if !tracker.DeleteItem(name) {
+		out.Out("not found item")
+	}
 }
 
 type UpdateUsecase struct{}
@@ -41,7 +43,9 @@ func (u UpdateUsecase) Done(in Input, out Output, tracker *Tracker) {
 	id := in.Get()
 	out.Out("enter new name item:")
 	name := in.Get()
-	tracker.UpdateItem(out, id, name)
+	if !tracker.UpdateItem(id, name) {
+		out.Out("not found item")
+	}
 }
 
 type GetItemUsecase struct{}
