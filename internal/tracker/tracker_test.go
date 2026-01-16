@@ -10,7 +10,25 @@ func Test_Tracker(t *testing.T) {
 	t.Parallel()
 
 	t.Run("error update - not found", func(t *testing.T) {
+		t.Parallel()
 
+		newTracker := tracker.NewTracker()
+		item := tracker.Item{
+			ID:   "1",
+			Name: "First Item",
+		}
+
+		itemTwo := tracker.Item{
+			ID:   "2",
+			Name: "Second Item",
+		}
+
+		newTracker.AddItem(item)
+		itemAnswer, _ := newTracker.AddItem(itemTwo)
+		assert.Equal(t, itemTwo, itemAnswer)
+	})
+
+	t.Run("error update - not found", func(t *testing.T) {
 		t.Parallel()
 
 		newTracker := tracker.NewTracker()
@@ -25,7 +43,7 @@ func Test_Tracker(t *testing.T) {
 		}
 
 		newTracker.AddItem(item)
-		err := newTracker.AddItem(itemTwo)
+		_, err := newTracker.AddItem(itemTwo)
 		assert.ErrorIs(t, err, tracker.ErrNotFound)
 	})
 }

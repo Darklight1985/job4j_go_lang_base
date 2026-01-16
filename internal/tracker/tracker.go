@@ -12,14 +12,14 @@ func NewTracker() *Tracker {
 	return &Tracker{}
 }
 
-func (t *Tracker) AddItem(item Item) error {
+func (t *Tracker) AddItem(item Item) (Item, error) {
 	_, ok := t.indexOf(item.ID)
 	if ok {
-		return ErrNotFound
+		return Item{}, ErrNotFound
 	}
 
 	t.Items = append(t.Items, item)
-	return nil
+	return item, nil
 }
 
 func (t *Tracker) GetItems() []Item {

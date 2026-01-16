@@ -15,7 +15,10 @@ func (u AddUsecase) Done(in Input, out Output, tracker *Tracker) {
 	out.Out("enter name:")
 	name := in.Get()
 	id := uuid.New().String()
-	tracker.AddItem(Item{Name: name, ID: id})
+	_, error := tracker.AddItem(Item{Name: name, ID: id})
+	if error != nil {
+		out.Out("item with such id already exists")
+	}
 }
 
 type GetUsecase struct{}
