@@ -9,7 +9,7 @@ import (
 func Test_Tracker(t *testing.T) {
 	t.Parallel()
 
-	t.Run("error update - not found", func(t *testing.T) {
+	t.Run("item add - successfully", func(t *testing.T) {
 		t.Parallel()
 
 		newTracker := tracker.NewTracker()
@@ -28,7 +28,7 @@ func Test_Tracker(t *testing.T) {
 		assert.Equal(t, itemTwo, itemAnswer)
 	})
 
-	t.Run("error update - not found", func(t *testing.T) {
+	t.Run("item add - error already exists", func(t *testing.T) {
 		t.Parallel()
 
 		newTracker := tracker.NewTracker()
@@ -44,6 +44,6 @@ func Test_Tracker(t *testing.T) {
 
 		newTracker.AddItem(item)
 		_, err := newTracker.AddItem(itemTwo)
-		assert.ErrorIs(t, err, tracker.ErrNotFound)
+		assert.ErrorIs(t, err, tracker.ErrAlreadyExists)
 	})
 }

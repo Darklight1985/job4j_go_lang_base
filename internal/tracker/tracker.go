@@ -18,7 +18,7 @@ func (t *Tracker) AddItem(item Item) (Item, error) {
 		t.Items = append(t.Items, item)
 		return item, nil
 	}
-	return Item{}, ErrNotFound
+	return Item{}, ErrAlreadyExists
 }
 
 func (t *Tracker) GetItems() []Item {
