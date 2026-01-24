@@ -47,14 +47,14 @@ func (t *Tracker) UpdateItem(id string, name string) bool {
 	return true
 }
 
-func (t *Tracker) GetItem(subStr string) (error, Item) {
+func (t *Tracker) GetItem(subStr string) (Item, error) {
 	items := t.Items
 	for _, item := range items {
 		if strings.Contains(item.Name, subStr) {
-			return nil, item
+			return item, nil
 		}
 	}
-	return ErrNotFound, Item{}
+	return Item{}, ErrNotFound
 }
 
 func (t *Tracker) indexOf(id string) (int, bool) {
