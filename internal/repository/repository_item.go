@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
+	"github.com/google/uuid"
 
 	"job4j.ru/go-lang-base/internal/tracker"
 
@@ -61,4 +62,37 @@ func (r *RepoPg) Get(ctx context.Context, id string) (tracker.Item, error) {
 	).Scan(&it.ID, &it.Name)
 
 	return it, err
+}
+
+func (r *RepoPg) Delete(ctx context.Context, id uuid.UUID) error {
+	_, err := r.pool.Exec(
+		ctx,
+		`delete from items where id = $1`,
+		id,
+	)
+
+	return err
+}
+
+func (r *RepoPg) SearchByName(ctx context.Context, name string) (tracker.Item, error) {
+	var it tracker.Item
+	err := r.pool.QueryRow(
+		ctx,
+		`select id, name from items where name = $1`,
+		name,
+	).Scan(&it.ID, &it.Name)
+
+	return it, err
+}
+
+func (r *RepoPg) Update(ctx context.Context, it tracker.Item) error {
+	_, err := r.pool.Exec(
+		ctx,
+		`update items set name = $1 where id = $2`,
+		it.Name, it.ID,
+	)
+	if err != nil {
+		return fmt.Errorf("r.pool.Exec: %w", err)
+	}
+	return nil
 }
